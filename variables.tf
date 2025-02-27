@@ -40,6 +40,12 @@ variable "enable_copy" {
   default     = false
 }
 
+variable "enable_vault_lock" {
+  description = "Enable vault lock"
+  type        = bool
+  default     = false
+}
+
 variable "git" {
   description = "Exact name of your git repository"
   type        = string
@@ -49,6 +55,24 @@ variable "kms_key_arn" {
   description = "KMS key ARN to use for encryption"
   type        = string
   default     = null
+}
+
+variable "lock_changeable_for_days" {
+  description = "The number of days before the lock date. If omitted creates a vault lock in governance mode, otherwise it will create a vault lock in compliance mode."
+  type        = number
+  default     = 3
+}
+
+variable "lock_max_retention_days" {
+  description = "The maximum retention period that the vault retains its recovery points."
+  type        = number
+  default     = 365
+}
+
+variable "lock_min_retention_days" {
+  description = "The minimum retention period that the vault retains its recovery points."
+  type        = number
+  default     = 7
 }
 
 variable "name" {

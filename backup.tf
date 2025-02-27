@@ -6,6 +6,14 @@ resource "aws_backup_vault" "this" {
   tags          = merge(local.tags, var.tags)
 }
 
+resource "aws_backup_vault_lock_configuration" "this" {
+  count               = var.enabled && var.enable_vault_lock ? 1 : 0
+  backup_vault_name   = aws_backup_vault.this[0].name
+  changeable_for_days = var.lock_changeable_for_days
+  max_retention_days  = var.lock_max_retention_days
+  min_retention_days  = var.lock_min_retention_days
+}
+
 resource "aws_backup_plan" "this" {
   count = var.enabled ? 1 : 0
   name  = local.name
