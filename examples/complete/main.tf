@@ -1,23 +1,15 @@
-data "aws_vpcs" "this" {
-  tags = {
-    purpose = "vega"
-  }
-}
-
-data "aws_subnets" "this" {
-  tags = {
-    purpose = "vega"
-    Type    = "Private"
-  }
-
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpcs.this.ids[0]]
-  }
+module "s3" {
+  source  = "github.com/champ-oss/terraform-aws-s3.git?ref=v1.0.57-68016e0"
+  git     = "terraform-aws-backup"
+  name    = "example"
+  protect = false
 }
 
 module "this" {
-  source             = "../../"
-  private_subnet_ids = data.aws_subnets.this.ids
-  vpc_id             = data.aws_vpcs.this.ids[0]
+  source       = "../../"
+  git          = "terraform-aws-backup"
+  name         = "example"
+  resource_arn = module.s3.arn
+  protect      = false
+  delete_after = 3
 }
