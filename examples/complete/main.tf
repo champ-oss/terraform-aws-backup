@@ -11,5 +11,4 @@ module "this" {
   name         = "example"
   resource_arn = module.s3.arn
   protect      = false
-  delete_after = 3
 }

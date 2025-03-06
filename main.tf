@@ -5,7 +5,7 @@ locals {
     creator = "terraform"
   }
 
-  trimmed_name = substr("${var.git}-${var.name}", 0, 44)
+  trimmed_name = substr("${var.git}-${var.name}", 0, 43)
   name         = try("${local.trimmed_name}-${random_id.this[0].hex}", local.trimmed_name)
 }
 
