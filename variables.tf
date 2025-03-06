@@ -83,7 +83,7 @@ variable "name" {
 variable "opt_in_to_archive_for_supported_resources" {
   description = "This setting will instruct your backup plan to transition supported resources to archive (cold) storage tier in accordance with your lifecycle settings."
   type        = bool
-  default     = null
+  default     = false
 }
 
 variable "protect" {
