@@ -6,6 +6,11 @@ resource "aws_backup_vault" "this" {
   tags          = merge(local.tags, var.tags)
 }
 
+data "aws_ssm_parameters_by_path" "default_cross_region_vault_arn" {
+  count = var.enabled ? 1 : 0
+  path  = var.default_cross_region_vault_ssm_prefix
+}
+
 resource "aws_backup_vault_lock_configuration" "this" {
   count               = var.enabled && var.enable_vault_lock ? 1 : 0
   backup_vault_name   = aws_backup_vault.this[0].name
@@ -38,7 +43,7 @@ resource "aws_backup_plan" "this" {
     dynamic "copy_action" {
       for_each = var.enable_copy ? [1] : []
       content {
-        destination_vault_arn = var.destination_vault_arn
+        destination_vault_arn = var.destination_vault_arn != null ? var.destination_vault_arn : data.aws_ssm_parameters_by_path.default_cross_region_vault_arn[0].values[0]
         lifecycle {
           cold_storage_after                        = var.cold_storage_after
           delete_after                              = var.delete_after
