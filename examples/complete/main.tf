@@ -12,7 +12,7 @@ module "s3" {
 }
 
 module "vault" {
-  source       = "github.com/champ-oss/terraform-aws-backup-vault.git?ref=develop"
+  source       = "github.com/champ-oss/terraform-aws-backup-vault.git?ref=v1.0.1-f31b208"
   git          = "terraform-aws-backup"
   enabled      = true
   create_vault = true
