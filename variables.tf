@@ -120,3 +120,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "default_cross_region_vault_ssm_prefix" {
+  description = "Name of the SSM parameter containing the ARN of the default cross-region backup vault"
+  type        = string
+  default     = "/backup/default/"
+}
